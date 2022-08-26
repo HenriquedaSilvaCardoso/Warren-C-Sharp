@@ -8,24 +8,41 @@ namespace WepApi.Controllers
     [ApiController]
     public class AnimalController : ControllerBase
     {
-       [HttpGet("GetCachorro")]
-       public Animal Get()
+        private AnimalRepository repo;
+
+        public AnimalController()
         {
-            Animal animal = new Animal
-            {
-                Id = 1,
-                Nome = "Rex",
-                Especie = "Cachorro",
-                Peso = 3.8f
-            };
-            return animal;
+            repo = new AnimalRepository();
         }
 
-        [HttpPost]
-        public string Post(Animal animal)
+        [HttpGet("GetAll")]
+        public List<Animal> GetAll()
         {
-            AnimalRepository repo = new AnimalRepository();
+            return repo.GetAll();
+        }
+
+        [HttpPost("InsertIntoAnimal")]
+        public string InsertIntoAnimal(Animal animal)
+        {
             return repo.Create(animal);
+        }
+
+        [HttpGet("GetById")]
+        public Animal GetById(int id)
+        {
+            return repo.GetById(id);
+        }
+
+        [HttpDelete("DeleteAnimalById")]
+        public string DeleteAnimalById(int id)
+        {
+            return repo.Delete(id);
+        }
+
+        [HttpPut("UpdateAnimal")]
+        public string UpdateAnimal(Animal model)
+        {
+            return repo.Update(model);
         }
     }
 }

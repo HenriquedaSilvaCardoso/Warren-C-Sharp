@@ -13,6 +13,6 @@ namespace Data.Repository
         string Update(T model);
         string Delete(int id);
         List<T> GetAll();
-        T Get(int id);
+        T GetById(int id);
     }
 }

@@ -1,40 +1,61 @@
-﻿using Data.Model;
+﻿using Data.Context;
+using Data.Model;
 
 namespace Data.Repository
 {
     public class BaseRepository<T> : IRepository<T> where T : BaseModel
     {
-        public List<T> Objects { get; set; }
-
-        public BaseRepository()
+      
+        public virtual List<T> GetAll()
         {
-            Objects = new List<T>();
+            List<T> list = new List<T>();
+            using (WarrenContext context = new WarrenContext())
+            {
+                list = context.Set<T>().ToList();
+            }
+
+            return list;
         }
 
-        public string Create(T model)
+        public virtual T GetById(int id)
         {
-            return "Criado";
-        }
-
-        public string Delete(int id)
-        {
-            return "Deletado";    
-        }
-
-        public T Get(int id)
-        {
-            var model = Objects[id];
+            T model = null;
+            using(WarrenContext context = new WarrenContext())
+            {
+                model = context.Set<T>().Find(id);
+            }
             return model;
         }
 
-        public List<T> GetAll()
+        public virtual string Create(T model)
         {
-            return Objects;
+            using (WarrenContext context = new WarrenContext())
+            {
+                context.Set<T>().Add(model);
+                context.SaveChanges();
+            }
+            return "Criado";
         }
 
-        public string Update(T model)
+        virtual public string Delete(int id)
         {
-            throw new NotImplementedException();
+            var model = this.GetById(id);
+            using (WarrenContext context = new WarrenContext())
+            {
+                context.Entry<T>(model).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                context.SaveChanges();
+            }
+            return "Deletado";    
+        }
+
+        virtual public string Update(T model)
+        {
+            using (WarrenContext context = new WarrenContext())
+            {
+                context.Entry<T>(model).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                context.SaveChanges();
+            }
+            return "Atualizado";
         }
     }
 }
