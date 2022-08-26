@@ -20,7 +20,7 @@ namespace Console
             //TestaPessoas.ExecutaFisica(); 
             //TestaPessoas.ExecutaJuridica(); 
 
-            TestaPessoas.ExecutaPessoa();
+            TestaObjeto.ExecutaAnimal();
             System.Console.Read();
         }
     }

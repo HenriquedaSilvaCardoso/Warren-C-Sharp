@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Console._1___TipoReferencia
 {
-    internal interface IRepository<T>
+    internal class BaseModel
     {
-        string Create(T pessoa);
-        string Update(T pessoa);
-        string Delete(int id);
-        List<T> Read();
+        public int Id { get; set; }
     }
 }

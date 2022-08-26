@@ -1,14 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Console._1___TipoReferencia
 {
-    internal class TestaPessoas
+    internal class TestaObjeto
     {
+        public static void ExecutaAnimal()
+        {
+            var repo = new AnimalRepository();
 
+            var animal1 = new Animal("Cachorro", "Lulu da Pomerânia", 'M', "au au");
+            var animal2 = new Animal("Cachorro", "Pitbull", 'F', "AU AU!");
+
+            repo.Create(animal1);
+            repo.Create(animal2);
+
+            foreach(Animal animal in repo.Read())
+            {
+                System.Console.WriteLine(animal.SomQueFaz());
+            }
+        }
         public static void ExecutaPessoa()
         {
             Pessoa p1 = new Pessoa("Henrique", "da Silva Cardoso");
@@ -21,7 +31,7 @@ namespace Console._1___TipoReferencia
             PessoaFisica pf2 = (PessoaFisica)pf1;
             PessoaJuridica pj2 = (PessoaJuridica)pj1;
 
-            BaseRepository repo = new BaseRepository();
+            var repo = new BaseRepository<Pessoa>();
             repo.Create(p1);
             repo.Create(pf2);
             repo.Create(pj2);

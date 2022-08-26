@@ -6,34 +6,36 @@ using System.Threading.Tasks;
 
 namespace Console._1___TipoReferencia
 {
-    internal class BaseRepository : IRepository
+    internal class BaseRepository<T> : IRepository<T> where T : BaseModel
     {
-        List<Pessoa> pessoas;
-        
+        List<T> objetos;
+
         public BaseRepository()
         {
-            this.pessoas = new List<Pessoa>();
-        }
-        public string Create(Pessoa pessoa)
-        {
-            this.pessoas.Add(pessoa);
-            return $"Pessoa: {pessoa.Nome}, Salva com sucesso";
+            this.objetos = new List<T>();
         }
 
-        public string Delete(int id)
+        virtual public string Create(T objeto)
         {
-            this.pessoas.RemoveAt(id);  
-            return $"Pessoa de id: {id} deletada com sucesso";
+            this.objetos.Add(objeto);
+            return $"O dado de id : {objeto.Id}, Salva com sucesso";
         }
 
-        public List<Pessoa> Read()
+        virtual public string Delete(int id)
         {
-            return this.pessoas;
+            this.objetos.RemoveAt(id);
+            return $"O dado de id: {id} deletada com sucesso";
         }
 
-        public string Update(Pessoa pessoa)
+        virtual public List<T> Read()
         {
-            return $"Pessoa: {pessoa.Nome} alterada com sucesso!";
+            return this.objetos;
         }
-     }
+
+        virtual public string Update(T objeto)
+        {
+            return $"O dado de id: {objeto.Id} alterada com sucesso!";
+        }
+
+    }
 }
